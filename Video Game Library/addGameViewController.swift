@@ -17,26 +17,7 @@ class addGameViewController: UIViewController {
     @IBOutlet weak var textViewField: UITextView!
     @IBOutlet weak var ratingSegmentControl: UISegmentedControl!
     @IBOutlet weak var genrePickerView: UIPickerView!
-    
-    //Functions that you need to have
-    override func viewDidLoad() {
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
-        super.viewDidLoad()
-        
-        ratingSegmentControl.removeAllSegments()
-        
-        for (index, segment) in segments.enumerated() {
-            ratingSegmentControl.insertSegment(withTitle: segment.title, at: index, animated: false)
-        }
-        
-        genrePickerView.dataSource = self
-        genrePickerView.delegate = self
-        
-        
-        // Do any additional setup after loading the view.
-        
-    }
-    
+
     //AddGameButton Function:
     //MARK IBAction
     @IBAction func addGameTapped(_ sender: Any) { //Thsi will occur if the Add Game button is tapped
@@ -58,7 +39,7 @@ class addGameViewController: UIViewController {
         }
     }
     
-    
+    //shows options for rating
     let segments: [(title: String, rating: Game.Rating)] =
         [("K", .kids),
          ("E", .everyone),
@@ -68,11 +49,34 @@ class addGameViewController: UIViewController {
     
     let genreArray = ["Action", "Adventure", "RPG", "Horror"]
     
+    //Shows options for the genre
     let genres: [(title: String, genre: Game.Genre)] =
         [("Action", .action),
          ("Adventure", .adventure),
          ("RPG", .RPG),
          ("Horror", .horror)]
+    
+    //Functions that you need to have
+    override func viewDidLoad() {
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+        super.viewDidLoad()
+        
+        ratingSegmentControl.removeAllSegments()
+        
+        for (index, segment) in segments.enumerated() {
+            ratingSegmentControl.insertSegment(withTitle: segment.title, at: index, animated: false)
+        }
+        
+        genrePickerView.dataSource = self
+        genrePickerView.delegate = self
+        
+        ratingSegmentControl.selectedSegmentIndex = 0;
+        
+        
+        // Do any additional setup after loading the view.
+        
+    }
+    
 
     func trySavingGame() {
         
@@ -85,8 +89,13 @@ class addGameViewController: UIViewController {
         // rating
         let rating = segments[ratingSegmentControl.selectedSegmentIndex].rating
         
-        let genre = genreArray[genrePickerView.selectedRow(inComponent: 0)]
+        let genres = genreArray[genrePickerView.selectedRow(inComponent: 0)]
         // genre
+        
+        let game = Game(title: title, detail: details, rating: rating, genre: Game.Genre(rawValue: genres)!)
+        
+        Library.sharedInstance.games.append(game)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

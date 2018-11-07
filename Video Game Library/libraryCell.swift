@@ -19,7 +19,21 @@ class libraryCell: UITableViewCell {
     func setup(game: Game) {
         
         titleCell.text = game.title
-        genreCell.text = game.genre.rawValue 
+        
+        
+        //Genres being set depending on what the user chooses
+        switch game.genre {
+        case .action:
+            genreCell.text = "Action"
+        case .adventure:
+            genreCell.text = "Adventure"
+        case .horror:
+            genreCell.text = "Horror"
+        case .RPG:
+            genreCell.text = "Role Playing Game"
+        }
+        
+        //Rating being set based on what the user chooses - using the raw value to save time
         ratingCell.text = game.rating.rawValue
         
         switch game.availability {
