@@ -10,39 +10,42 @@ import Foundation
 
 class Game {
     
-    enum rating {
-        case kids
-        case teen
-        case everyone
-        case mature
-        case adultsOnly
+    enum Rating: String {
+        case kids = "K"
+        case teen = "T"
+        case everyone = "E"
+        case mature = "M"
+        case adultsOnly = "AO"
+        case notRated = "NR"
     }
     
-    enum genre {
-        case action
-        case RPG
-        case adventure
-        case horror
+    enum Genre: String {
+        case action = "action"
+        case RPG = "RPG"
+        case adventure = "adventure"
+        case horror = "horror"
     }
     
-    enum Availbility {
+    enum Availability {
         case checkedIn
         case checkedOut(dueDate: Date)
     }
+
     
     
+    var title: String = ""
+    var detail: String = ""
+
+    var rating: Rating
     
-    let title: String
-    let detail: String
-    let rating: String
-    let genre: String
-    var availability: Availbility
+    var genre: Genre
+    var availability: Availability
     
-    init(title: String, detail: String, rating: String, genre: String) {
+    init(title: String, detail: String, rating: Rating, genre: Genre) {
         self.title = title
         self.detail = detail
+        self.availability = .checkedIn
         self.rating = rating
         self.genre = genre
-        self.availability = .checkedIn
     }
 }
